@@ -46,6 +46,7 @@ public class BaseTest {
     @BeforeClass(alwaysRun = true)
     public static void setUp() {
         chromeDriverAndFirefoxSettings();
+
         System.out.println("Trendyol Test Automation");
         System.out.println("Installation finish");
     }

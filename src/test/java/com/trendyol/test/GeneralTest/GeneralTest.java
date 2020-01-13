@@ -13,14 +13,15 @@ public class GeneralTest extends BaseTest {
         LoginPage loginPage = new LoginPage(webDriver);
         GeneralTestPage generalTestPage = new GeneralTestPage(webDriver);
 
-        loginPage.navigateTo("https://www.boyner.com.tr/");
-        loginPage.clickLoginButton()
-                .setLoginData("trendyoltestrk@gmail.com", "test.123");
+        loginPage.navigateTo("https://www.trendyol.com/");
+        loginPage.popUpClose()
+                 .clickLoginButton()
+                 .setLoginData("trendyoltestrk@gmail.com", "test.123");
 
         generalTestPage.butikLinkImageControl()
-                .randomButikControl()
-                .randomProductAddCart();
+                       .randomButikControl()
+                       .randomProductAddCart();
 
-        Assert.assertEquals(generalTestPage.expectedProductName(), GeneralTestPage.productName);
+        Assert.assertEquals(generalTestPage.actualProductName(), GeneralTestPage.productName);
     }
 }

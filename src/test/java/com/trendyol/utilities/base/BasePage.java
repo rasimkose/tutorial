@@ -7,7 +7,6 @@ import org.testng.Assert;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BasePage {
@@ -30,7 +29,7 @@ public class BasePage {
         return driver.getCurrentUrl().trim();
     }
 
-    protected void threadSleep(int time) {
+    private void threadSleep(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
@@ -71,7 +70,22 @@ public class BasePage {
                 webElement);
     }
 
+    protected void hoverElement(By by, int... index) {
+        threadSleep(1000);
+        Actions action = new Actions(driver);
+        action.moveToElement(findElement(by, index)).build().perform();
+    }
 
+    protected void waitUntilExpectedElement(By by, int... index) {
+        WebElement element;
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+            element = findElement(by, index);
+            highLightElement(element);
+        } catch (NullPointerException e) {
+            Assert.assertTrue(false, "Nullpointer Exception for:" + by);
+        }
+    }
 
     private void waitUntilExpectedElementClickable(WebElement element) {
         try {
@@ -95,7 +109,6 @@ public class BasePage {
             }else {
                 waitUntilExpectedElementClickable(element);
                 scrollToCenter(element);
-                threadSleep(1250);
                 element.click();
             }
         }catch (NullPointerException e){
@@ -151,7 +164,7 @@ public class BasePage {
         }
     }
 
-    protected int getWebElementsCount(By by, int... index) {
+    protected int getWebElementsCount(By by) {
         return findElementList(by).size();
     }
 

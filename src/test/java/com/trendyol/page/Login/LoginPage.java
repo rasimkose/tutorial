@@ -10,32 +10,34 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    private By popUpCloseXPath = By.xpath("//a[contains(@title, 'Close') or contains(@title, 'Kapat')]");
+    private By loginButtonXPath = By.xpath("//span[text()='Giriş Yap']");
+    private By loginButtonXPath2 = By.xpath("//div[text()='Giriş Yap']");
+    private By userEmailId = By.id("email");
+    private By passwordId = By.id("password");
+    private By loginSubmitButtonId = By.id("loginSubmit");
+    private By popUpCloseAfterLoginClassname = By.className("modal-close");
 
+    public LoginPage popUpClose() {
+        clickObject(popUpCloseXPath);
 
-    private By loginButtonCssSelector = By.cssSelector(".login a");
-    private By userEmailId = By.id("customerEmail");
-    private By userEmail2Id = By.id("Email2");
-    private By passwordId = By.id("customerPassword");
-    private By password2Id = By.id("Password");
-    private By loginSubmitButtonXPath = By.xpath("//button[contains(text(), 'Giriş Yap')]");
-
-
+        return this;
+    }
 
     public LoginPage clickLoginButton(){
-        clickObject(loginButtonCssSelector);
+        hoverElement(loginButtonXPath);
+        clickObject(loginButtonXPath2);
 
         return this;
     }
 
     public void setLoginData(String userEmail, String password){
-        if (isElementDisplayed(userEmail2Id)){
-            fillInputField(userEmail2Id, userEmail);
-            fillInputField(password2Id, password);
-        }else {
-            fillInputField(userEmailId, userEmail);
-            fillInputField(passwordId, password);
+        fillInputField(userEmailId, userEmail);
+        fillInputField(passwordId, password);
+        clickObject(loginSubmitButtonId);
+        if (isElementDisplayed(popUpCloseAfterLoginClassname)){
+            clickObject(popUpCloseAfterLoginClassname);
         }
 
-        clickObject(loginSubmitButtonXPath);
     }
 }

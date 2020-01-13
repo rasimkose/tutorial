@@ -10,44 +10,44 @@ public class GeneralTestPage extends BasePage {
         super(driver);
     }
 
-    private By tabLinkCssSelector = By.cssSelector(".main-navigation .menu-category");
-    private By butikLinkImageSrcCssSelector = By.cssSelector(".col-lg-4 img");
-    private By butikLinkDetailImageSrcClassname = By.className("lazy");
-    private By productItemClassname = By.className("product-list-item");
-    private By chooseSizeXPath = By.xpath("//span[contains(text(),'Lütfen Beden Seçiniz')]");
-    private By chooseSize2CssSelector = By.cssSelector(".dropdown-menu li");
-    private By addToCartClassname = By.className("js-addCart");
+    public static String productName;
+
+    private By tabLinkClassname = By.className("category-header");
+    private By butikLinkCssSelector = By.cssSelector(".image-container img");
+    private By productLinkClassname = By.className("prc-picture");
+    private By produtNameClassname = By.className("pr-in-nm");
+    private By addToCartXPath = By.xpath("//div[contains(text(), 'Sepete Ekle')]");
+    private By myCartIconCssSelector = By.cssSelector("#myBasketListItem a");
+    private By myCartProductNameClassname = By.className("basketlist-productinfo-description");
 
     public GeneralTestPage butikLinkImageControl(){
-        int count = getWebElementsCount(tabLinkCssSelector);
-        for (int i = 0; i < count - 2; i++){
-            clickObject(tabLinkCssSelector, i);
-            checkAllImageLink(butikLinkImageSrcCssSelector);
+        int count = getWebElementsCount(tabLinkClassname);
+        for (int i = 0; i < count; i++){
+            waitUntilExpectedElement(tabLinkClassname, i);
+            clickObject(tabLinkClassname, i);
+            checkAllImageLink(butikLinkCssSelector);
         }
 
         return this;
     }
 
     public GeneralTestPage randomButikControl(){
-        clickObject(tabLinkCssSelector, 0);
-        clickObject(butikLinkImageSrcCssSelector, 0);
-        checkAllImageLink(butikLinkDetailImageSrcClassname);
+        clickObject(tabLinkClassname, 0);
+        waitUntilExpectedElement(butikLinkCssSelector);
+        clickObject(butikLinkCssSelector, 0);
+        checkAllImageLink(productLinkClassname);
 
         return this;
     }
 
-    public static String productName;
     public void randomProductAddCart(){
-        clickObject(productItemClassname,3);
-        clickObject(chooseSizeXPath);
-        clickObject(chooseSize2CssSelector);
-        productName = getWebElementText(By.className("black-v1"));
-        clickObject(addToCartClassname);
-        threadSleep(4000);
-        clickObject(By.cssSelector(".basket a"));
+        clickObject(productLinkClassname);
+        productName = getWebElementText(produtNameClassname);
+        clickObject(addToCartXPath);
+        clickObject(myCartIconCssSelector);
     }
 
-    public String expectedProductName(){
-        return getWebElementText(By.className("o-productInfo__link"));
+    public String actualProductName(){
+        return getWebElementText(myCartProductNameClassname);
     }
 }
